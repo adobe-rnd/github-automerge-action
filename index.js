@@ -39,13 +39,6 @@ async function run() {
     commit_message: pr.head.sha,
     merge_method: 'merge',
   })
-  console.log(`remove branch`);
-  await client.git.deleteRef({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    ref: pr.head.ref,
-  });
-
   console.log(`done.`);
 }
 

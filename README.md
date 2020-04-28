@@ -1,6 +1,6 @@
-# Github Auto Approve Action
+# Github Auto Approve and Merge Action
 
-This action automatically approves a pull request.
+This action automatically approves a pull request and merges it.
 
 ## Inputs
 
@@ -11,18 +11,23 @@ This action automatically approves a pull request.
 ## Example usage
 
 ```yaml
-name: Auto approve
-on: pull_request
+name: Auto Approve
+
+on:
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Auto Approve
     steps:
-    - uses: adobe-rnd/github-automerge-action@master
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Auto Approve on ${{ github.head_ref }}
+        # only run on releases/*
+        # Note: for some reason limiting the branches in the 'on' above doesn't work
+        if: startsWith(github.head_ref, 'releases/')
+        uses: adobe-rnd/github-automerge-action@master
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 # Development
