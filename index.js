@@ -32,6 +32,9 @@ async function run() {
 
   console.log(`Trying to merge PR...`);
   await client.pulls.merge({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
+    pull_number: pr.number,
     commit_title: `Merging changes of ${pr.head.ref} (#${pr.number}}`,
     commit_message: pr.head.sha,
     merge_method: 'merge',
