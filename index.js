@@ -35,10 +35,17 @@ async function run() {
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
     pull_number: pr.number,
-    commit_title: `Merging changes of ${pr.head.ref} (#${pr.number}}`,
+    commit_title: `Merging changes of ${pr.head.ref} (#${pr.number})`,
     commit_message: pr.head.sha,
     merge_method: 'merge',
   })
+  console.log(`remove branch`);
+  await client.git.deleteRef({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
+    ref: pr.head.ref,
+  });
+
   console.log(`done.`);
 }
 
