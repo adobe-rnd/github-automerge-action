@@ -1,0 +1,9 @@
+name: 'Auto Approve'
+description: 'Approves a Pull request automatically'
+inputs:
+  repo-token:
+    description: 'github token for approving pull requests'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
