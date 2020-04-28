@@ -21,14 +21,22 @@ async function run() {
   if (!pr) {
     throw new Error("Event payload missing `pull_request`");
   }
-  core.debug(`Creating approving review for pull request #${pr.number}`);
+  console.log(`Creating approving review for pull request #${pr.number}`);
   await client.pulls.createReview({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
     pull_number: pr.number,
     event: "APPROVE"
   });
-  core.debug(`Approved pull request #${pr.number}`);
+  console.log(`Approved pull request #${pr.number}`);
+
+  console.log(`Trying to merge PR...`);
+  await client.pulls.merge({
+    commit_title: `Merging changes of ${pr.head.ref} (#${pr.number}}`,
+    commit_message: pr.head.sha,
+    merge_method: 'merge',
+  })
+  console.log(`done.`);
 }
 
 run().catch((error) => {
